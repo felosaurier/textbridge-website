@@ -120,6 +120,7 @@ nav a {
 nav a:hover,
 nav a:focus {
     color: var(--primary-color);
+    outline: none;
 }
 
 nav a.active {
@@ -260,7 +261,14 @@ main {
 }
 
 .grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* When there are exactly 3 items, they should be in a row */
+@media (max-width: 900px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Card Component */
@@ -323,6 +331,7 @@ main {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 .social-link {
@@ -537,6 +546,13 @@ footer {
         display: block;
         padding: 1rem;
         border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Mobile button spacing in hero section */
+    .hero .btn {
+        display: block;
+        margin: 0.75rem auto;
+        max-width: 280px;
     }
 
     .hero h1 {

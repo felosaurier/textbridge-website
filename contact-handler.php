@@ -15,7 +15,7 @@ header('X-XSS-Protection: 1; mode=block');
 header('Content-Type: application/json');
 
 // Configuration
-define('RECIPIENT_EMAIL', 'contact@textbridge.example'); // Change to your email
+define('RECIPIENT_EMAIL', 'team@textbridge.at');
 define('MAX_ATTEMPTS', 5); // Maximum submissions per hour
 define('RATE_LIMIT_PERIOD', 3600); // 1 hour in seconds
 
