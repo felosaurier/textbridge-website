@@ -397,6 +397,27 @@ main {
     min-height: 150px;
 }
 
+.form-group input[type="file"] {
+    padding: 0.5rem;
+    border: 2px dashed var(--border-color);
+    background-color: var(--bg-alt);
+    cursor: pointer;
+}
+
+.form-group input[type="file"]:hover {
+    border-color: var(--primary-color);
+}
+
+.form-group input[type="file"]:focus {
+    border-style: solid;
+}
+
+.file-info {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+}
+
 .form-error {
     color: var(--error-color);
     font-size: 0.875rem;

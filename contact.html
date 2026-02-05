@@ -89,7 +89,7 @@
                     <div>
                         <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Senden Sie uns eine Nachricht</h2>
                         
-                        <form id="contact-form" action="contact-handler.php" method="POST" novalidate>
+                        <form id="contact-form" action="contact-handler.php" method="POST" enctype="multipart/form-data" novalidate>
                             <!-- CSRF Token -->
                             <input type="hidden" name="csrf_token" id="csrf_token" value="">
                             
@@ -97,6 +97,20 @@
                             <div style="position: absolute; left: -9999px;" aria-hidden="true">
                                 <label for="website">Lassen Sie dieses Feld leer</label>
                                 <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="logo">Logo (Optional)</label>
+                                <input 
+                                    type="file" 
+                                    id="logo" 
+                                    name="logo" 
+                                    accept="image/png,image/jpeg,image/jpg,image/svg+xml"
+                                    aria-describedby="logo-info"
+                                >
+                                <div id="logo-info" class="file-info">
+                                    Akzeptierte Formate: PNG, JPG, JPEG, SVG. Maximale Größe: 2 MB
+                                </div>
                             </div>
 
                             <div class="form-group">

@@ -54,8 +54,25 @@ function processContactForm() {
     $subject = sanitizeInput($_POST['subject'] ?? '');
     $message = sanitizeInput($_POST['message'] ?? '');
 
+    // Handle logo file upload
+    $logoPath = null;
+    $logoError = null;
+    if (isset($_FILES['logo']) && $_FILES['logo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $logoResult = handleLogoUpload($_FILES['logo']);
+        if ($logoResult['success']) {
+            $logoPath = $logoResult['path'];
+        } else {
+            $logoError = $logoResult['error'];
+        }
+    }
+
     // Validate required fields
     $errors = validateFormData($name, $email, $subject, $message);
+    
+    // Add logo error if present
+    if ($logoError) {
+        $errors[] = $logoError;
+    }
     
     if (!empty($errors)) {
         sendResponse(false, implode(' ', $errors));
@@ -63,7 +80,7 @@ function processContactForm() {
     }
 
     // Send email
-    if (sendEmail($name, $email, $subject, $message)) {
+    if (sendEmail($name, $email, $subject, $message, $logoPath)) {
         // Log successful submission
         logSubmission($_SERVER['REMOTE_ADDR'], true);
         sendResponse(true, 'Thank you for your message! We will get back to you soon.');
@@ -79,6 +96,55 @@ function validateCSRFToken() {
     // For client-side generated tokens, we skip server validation
     // In production, generate and store tokens on the server side
     return isset($_POST['csrf_token']) && !empty($_POST['csrf_token']);
+}
+
+/**
+ * Handle logo file upload
+ */
+function handleLogoUpload($file) {
+    // Check for upload errors
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'error' => 'Logo upload failed. Please try again.'];
+    }
+
+    // Validate file size (max 2MB)
+    $maxFileSize = 2 * 1024 * 1024; // 2MB in bytes
+    if ($file['size'] > $maxFileSize) {
+        return ['success' => false, 'error' => 'Logo file size must not exceed 2 MB.'];
+    }
+
+    // Validate file type
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mimeType = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+
+    if (!in_array($mimeType, $allowedTypes)) {
+        return ['success' => false, 'error' => 'Invalid logo file type. Only PNG, JPG, JPEG, and SVG are allowed.'];
+    }
+
+    // Validate file extension
+    $allowedExtensions = ['png', 'jpg', 'jpeg', 'svg'];
+    $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        return ['success' => false, 'error' => 'Invalid logo file extension.'];
+    }
+
+    // Generate unique filename
+    $uploadDir = sys_get_temp_dir() . '/textbridge_uploads/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+
+    $uniqueFilename = 'logo_' . uniqid() . '_' . time() . '.' . $fileExtension;
+    $uploadPath = $uploadDir . $uniqueFilename;
+
+    // Move uploaded file
+    if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
+        return ['success' => false, 'error' => 'Failed to save logo file.'];
+    }
+
+    return ['success' => true, 'path' => $uploadPath];
 }
 
 /**
@@ -172,7 +238,7 @@ function validateFormData($name, $email, $subject, $message) {
 /**
  * Send email
  */
-function sendEmail($name, $email, $subject, $message) {
+function sendEmail($name, $email, $subject, $message, $logoPath = null) {
     $to = RECIPIENT_EMAIL;
     $emailSubject = '[TextBridge Contact] ' . $subject;
     
@@ -182,11 +248,21 @@ function sendEmail($name, $email, $subject, $message) {
     $emailBody .= "Email: $email\n";
     $emailBody .= "Subject: $subject\n\n";
     $emailBody .= "Message:\n$message\n\n";
+    
+    if ($logoPath) {
+        $emailBody .= "Logo attachment: Yes (attached to this email)\n";
+    }
+    
     $emailBody .= "---\n";
     $emailBody .= "Submitted: " . date('Y-m-d H:i:s') . "\n";
     $emailBody .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
     
-    // Email headers
+    // If logo is attached, send with attachment
+    if ($logoPath && file_exists($logoPath)) {
+        return sendEmailWithAttachment($to, $emailSubject, $emailBody, $email, $logoPath);
+    }
+    
+    // Email headers (no attachment)
     $headers = [];
     $headers[] = 'From: TextBridge Website <noreply@textbridge.example>';
     $headers[] = 'Reply-To: ' . $email;
@@ -195,6 +271,39 @@ function sendEmail($name, $email, $subject, $message) {
     
     // Send email
     return mail($to, $emailSubject, $emailBody, implode("\r\n", $headers));
+}
+
+/**
+ * Send email with attachment
+ */
+function sendEmailWithAttachment($to, $subject, $body, $replyToEmail, $attachmentPath) {
+    $boundary = md5(time());
+    
+    // Headers
+    $headers = [];
+    $headers[] = 'From: TextBridge Website <noreply@textbridge.example>';
+    $headers[] = 'Reply-To: ' . $replyToEmail;
+    $headers[] = 'X-Mailer: PHP/' . phpversion();
+    $headers[] = 'MIME-Version: 1.0';
+    $headers[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+    
+    // Message body
+    $emailMessage = "--$boundary\r\n";
+    $emailMessage .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $emailMessage .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $emailMessage .= $body . "\r\n";
+    
+    // Attachment
+    $filename = basename($attachmentPath);
+    $fileContent = chunk_split(base64_encode(file_get_contents($attachmentPath)));
+    $emailMessage .= "--$boundary\r\n";
+    $emailMessage .= "Content-Type: application/octet-stream; name=\"$filename\"\r\n";
+    $emailMessage .= "Content-Transfer-Encoding: base64\r\n";
+    $emailMessage .= "Content-Disposition: attachment; filename=\"$filename\"\r\n\r\n";
+    $emailMessage .= $fileContent . "\r\n";
+    $emailMessage .= "--$boundary--";
+    
+    return mail($to, $subject, $emailMessage, implode("\r\n", $headers));
 }
 
 /**
