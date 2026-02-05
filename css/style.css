@@ -553,16 +553,16 @@ footer {
         border-bottom: 1px solid var(--border-color);
     }
 
-    /* Mobile button spacing for all buttons */
-    .btn {
+    /* Mobile button spacing in hero section */
+    .hero .btn {
         display: block;
         margin: 0.75rem auto;
         max-width: 280px;
     }
     
-    /* Add vertical spacing and maintain centering on mobile when buttons stack */
+    /* Remove horizontal spacing on mobile when buttons stack */
     .btn + .btn {
-        margin: 1rem auto 0.75rem auto;
+        margin-left: 0;
     }
 
     .hero h1 {
