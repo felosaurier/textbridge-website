@@ -81,10 +81,23 @@ function processContactForm() {
 
     // Send email
     if (sendEmail($name, $email, $subject, $message, $logoPath)) {
+        // Clean up uploaded file after sending
+        if ($logoPath && file_exists($logoPath)) {
+            unlink($logoPath);
+            // Try to remove the upload directory if empty
+            $uploadDir = dirname($logoPath);
+            @rmdir($uploadDir);
+        }
         // Log successful submission
         logSubmission($_SERVER['REMOTE_ADDR'], true);
         sendResponse(true, 'Thank you for your message! We will get back to you soon.');
     } else {
+        // Clean up uploaded file even on failure
+        if ($logoPath && file_exists($logoPath)) {
+            unlink($logoPath);
+            $uploadDir = dirname($logoPath);
+            @rmdir($uploadDir);
+        }
         sendResponse(false, 'Failed to send message. Please try again later or contact us directly via email.');
     }
 }
@@ -114,7 +127,7 @@ function handleLogoUpload($file) {
     }
 
     // Validate file type
-    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/svg+xml'];
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimeType = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
@@ -131,12 +144,12 @@ function handleLogoUpload($file) {
     }
 
     // Generate unique filename
-    $uploadDir = sys_get_temp_dir() . '/textbridge_uploads/';
+    $uploadDir = sys_get_temp_dir() . '/textbridge_uploads_' . bin2hex(random_bytes(8)) . '/';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        mkdir($uploadDir, 0700, true);
     }
 
-    $uniqueFilename = 'logo_' . uniqid() . '_' . time() . '.' . $fileExtension;
+    $uniqueFilename = 'logo_' . bin2hex(random_bytes(16)) . '_' . time() . '.' . $fileExtension;
     $uploadPath = $uploadDir . $uniqueFilename;
 
     // Move uploaded file
@@ -293,8 +306,15 @@ function sendEmailWithAttachment($to, $subject, $body, $replyToEmail, $attachmen
     $emailMessage .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
     $emailMessage .= $body . "\r\n";
     
-    // Attachment
+    // Attachment - read file in chunks for better memory efficiency
     $filename = basename($attachmentPath);
+    $fileSize = filesize($attachmentPath);
+    
+    // Only proceed if file is within reasonable size
+    if ($fileSize > 2 * 1024 * 1024) {
+        return false; // File too large
+    }
+    
     $fileContent = chunk_split(base64_encode(file_get_contents($attachmentPath)));
     $emailMessage .= "--$boundary\r\n";
     $emailMessage .= "Content-Type: application/octet-stream; name=\"$filename\"\r\n";
