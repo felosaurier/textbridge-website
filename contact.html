@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kontaktieren Sie das TextBridge-Team. Setzen Sie sich in Verbindung mit Felix Horngacher, Oliver Kellner und Raphael Klein.">
+    <meta name="keywords" content="TextBridge kontaktieren, HTL Ungargasse, Feedback, Anfrage">
+    <title>Kontaktieren Sie uns - TextBridge</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="TextBridge Logo" class="logo-img" onerror="this.style.display='none'">
+                <span>TextBridge</span>
+            </a>
+            <button class="menu-toggle" aria-label="Menü umschalten" aria-expanded="false">
+                ☰
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Startseite</a></li>
+                    <li><a href="products.html">Produkte</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="history.html">Geschichte</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Kontakt aufnehmen</h1>
+                <p>Haben Sie Fragen zu TextBridge? Wir freuen uns auf Ihre Nachricht!</p>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="section">
+            <div class="container">
+                <div class="grid grid-2">
+                    <!-- Contact Info -->
+                    <div>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Kontaktinformationen</h2>
+                        <p style="color: var(--text-light); font-size: 1.125rem; line-height: 1.8; margin-bottom: 2rem;">
+                            Wir freuen uns immer, über TextBridge zu sprechen, Fragen zu unserer Technologie zu beantworten oder Kooperationsmöglichkeiten zu erkunden.
+                        </p>
+                        
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <h3>🏫 Institution</h3>
+                            <p style="margin-top: 0.5rem;">
+                                <strong>HTL Ungargasse</strong><br>
+                                Wien, Österreich
+                            </p>
+                        </div>
+
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <h3>📧 E-Mail</h3>
+                            <p style="margin-top: 0.5rem;">
+                                <a href="mailto:team@textbridge.at" style="color: var(--primary-color);">team@textbridge.at</a>
+                            </p>
+                        </div>
+
+                        <div class="card" style="margin-bottom: 1.5rem;">
+                            <h3>👨‍🏫 Projektbetreuer</h3>
+                            <p style="margin-top: 0.5rem;">
+                                <strong>Dipl.-Ing. Mag. Dr. Martin Hasitschka</strong>
+                            </p>
+                        </div>
+
+                        <div class="card">
+                            <h3>⏰ Antwortzeit</h3>
+                            <p style="margin-top: 0.5rem;">
+                                Wir antworten in der Regel innerhalb von 1-2 Werktagen.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Senden Sie uns eine Nachricht</h2>
+                        
+                        <form id="contact-form" action="contact-handler.php" method="POST" novalidate>
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="csrf_token" id="csrf_token" value="">
+                            
+                            <!-- Honeypot field (hidden from users, catches bots) -->
+                            <div style="position: absolute; left: -9999px;" aria-hidden="true">
+                                <label for="website">Lassen Sie dieses Feld leer</label>
+                                <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name">Name <span style="color: var(--error-color);">*</span></label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    required 
+                                    aria-required="true"
+                                    placeholder="Ihr vollständiger Name"
+                                    maxlength="100"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">E-Mail <span style="color: var(--error-color);">*</span></label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    required 
+                                    aria-required="true"
+                                    placeholder="ihre.email@beispiel.de"
+                                    maxlength="100"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject">Betreff <span style="color: var(--error-color);">*</span></label>
+                                <input 
+                                    type="text" 
+                                    id="subject" 
+                                    name="subject" 
+                                    required 
+                                    aria-required="true"
+                                    placeholder="Worum geht es?"
+                                    maxlength="200"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Nachricht <span style="color: var(--error-color);">*</span></label>
+                                <textarea 
+                                    id="message" 
+                                    name="message" 
+                                    required 
+                                    aria-required="true"
+                                    placeholder="Erzählen Sie uns mehr über Ihre Anfrage..."
+                                    rows="6"
+                                    maxlength="5000"
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.125rem;">
+                                Nachricht senden
+                            </button>
+
+                            <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-light);">
+                                <span style="color: var(--error-color);">*</span> Pflichtfelder
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section section-alt">
+            <div class="container">
+                <h2 class="section-title">Häufig gestellte Fragen</h2>
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3>Ist TextBridge käuflich zu erwerben?</h3>
+                        <p>TextBridge ist derzeit ein Diplomarbeitsprojekt. Obwohl es noch nicht kommerziell erhältlich ist, erkunden wir Optionen für zukünftige Entwicklung und Vertrieb.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Kann ich TextBridge ausprobieren?</h3>
+                        <p>Wir führen gelegentlich Benutzertestsitzungen durch. Kontaktieren Sie uns, um Ihr Interesse an der Teilnahme an zukünftigen Testmöglichkeiten zu bekunden.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Welche Sprachen werden unterstützt?</h3>
+                        <p>TextBridge unterstützt derzeit über 50 Sprachen für Übersetzungen, mit Sprache-zu-Text in mehreren Sprachen und erweiternder Gebärdensprachunterstützung.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Suchen Sie nach Kooperationspartnern?</h3>
+                        <p>Wir sind offen für die Zusammenarbeit mit Organisationen, Forschern und Unternehmen, die an Barrierefreiheitstechnologie interessiert sind. Kontaktieren Sie uns, um Möglichkeiten zu besprechen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>TextBridge</h3>
+                <p>Sprachbarrieren durch innovative Technologie überwinden.</p>
+                <p style="margin-top: 1rem;">
+                    <strong>HTL Ungargasse</strong><br>
+                    Diplomarbeitsprojekt 2026/27
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3>Schnelllinks</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Startseite</a></li>
+                    <li><a href="products.html">Produkte</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="history.html">Geschichte</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Rechtliches</h3>
+                <ul class="footer-links">
+                    <li><a href="accessibility.html">Barrierefreiheitserklärung</a></li>
+                    <li><a href="privacy.html">Datenschutzerklärung</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Betreuer</h3>
+                <p>Dipl.-Ing. Mag. Dr. Martin Hasitschka</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TextBridge. Alle Rechte vorbehalten. | HTL Ungargasse Diplomarbeitsprojekt</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Generate CSRF token on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate a simple token (in production, this should come from the server)
+            const token = Array.from(crypto.getRandomValues(new Uint8Array(32)))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+            document.getElementById('csrf_token').value = token;
+            sessionStorage.setItem('csrf_token', token);
+        });
+    </script>
+</body>
+</html>
