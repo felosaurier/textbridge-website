@@ -192,6 +192,11 @@ main {
     border: none;
 }
 
+/* Add spacing between inline buttons */
+.btn + .btn {
+    margin-left: 1rem;
+}
+
 .btn:hover,
 .btn:focus {
     background: var(--secondary-color);
@@ -553,6 +558,11 @@ footer {
         display: block;
         margin: 0.75rem auto;
         max-width: 280px;
+    }
+    
+    /* Remove horizontal spacing on mobile when buttons stack */
+    .btn + .btn {
+        margin-left: 0;
     }
 
     .hero h1 {
