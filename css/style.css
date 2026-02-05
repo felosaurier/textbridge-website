@@ -560,10 +560,9 @@ footer {
         max-width: 280px;
     }
     
-    /* Remove horizontal spacing and add vertical spacing on mobile when buttons stack */
+    /* Add vertical spacing and maintain centering on mobile when buttons stack */
     .btn + .btn {
-        margin-left: 0;
-        margin-top: 1rem;
+        margin: 1rem auto 0.75rem auto;
     }
 
     .hero h1 {
