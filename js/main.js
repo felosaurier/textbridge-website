@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth Scrolling for anchor links
     initSmoothScroll();
     
+    // Initialize scroll animations
+    initScrollAnimations();
+    
     // Contact Form Validation
     if (document.querySelector('#contact-form')) {
         initContactForm();
@@ -290,24 +293,47 @@ function showFormMessage(type, message) {
 }
 
 /**
- * Add animation on scroll (optional enhancement)
+ * Add animation on scroll for smooth page transitions
  */
 function initScrollAnimations() {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion) {
+        // Skip animations if user prefers reduced motion
+        return;
+    }
+    
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
+                // Keep observing for elements that may go out and come back
             }
         });
     }, observerOptions);
     
-    // Observe elements with animation class
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    animatedElements.forEach(el => observer.observe(el));
+    // Observe all cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => observer.observe(card));
+    
+    // Observe section titles and subtitles
+    const sectionTitles = document.querySelectorAll('.section-title');
+    sectionTitles.forEach(title => observer.observe(title));
+    
+    const sectionSubtitles = document.querySelectorAll('.section-subtitle');
+    sectionSubtitles.forEach(subtitle => observer.observe(subtitle));
+    
+    // Observe timeline items
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => observer.observe(item));
+    
+    // Observe elements with fade-in class
+    const fadeElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+    fadeElements.forEach(el => observer.observe(el));
 }
