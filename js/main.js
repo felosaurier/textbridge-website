@@ -313,7 +313,7 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
-                // Keep observing for elements that may go out and come back
+                // Elements remain observed to allow re-animation if they scroll out and back in
             }
         });
     }, observerOptions);
