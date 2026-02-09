@@ -115,6 +115,34 @@ header {
     margin-right: 0.5rem;
 }
 
+/* Logo image switching for dark/light mode */
+.logo-img-light {
+    display: inline;
+}
+
+.logo-img-dark {
+    display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .logo-img-light {
+        display: none;
+    }
+    
+    .logo-img-dark {
+        display: inline;
+    }
+}
+
+/* TextBridge text styling */
+.logo-text {
+    color: var(--text-color);
+}
+
+.logo-bridge {
+    color: var(--primary-color);
+}
+
 nav ul {
     list-style: none;
     display: flex;
