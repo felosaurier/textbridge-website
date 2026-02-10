@@ -17,9 +17,8 @@ TextBridge glasses project text directly onto the user's field of vision, enabli
 ## 👥 Team
 
 - **Felix Horngacher** - Lead Developer & AI Specialist
-- **Oliver Kellner** - Hardware Engineer & Design Lead  
-- **Raphael Klein** - Software Engineer & UX Designer
-
+- **Oliver Kellner** - Software Engineer & UX Designer
+- **Raphael Klein** - Hardware Engineer & Design Lead  
 **Project Mentor**: Dipl.-Ing. Mag. Dr. Martin Hasitschka
 
 ## 🌐 Website Structure
