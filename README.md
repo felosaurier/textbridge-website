@@ -201,8 +201,8 @@ Dieses Projekt ist eine Diplomarbeit an der HTL Ungargasse für das Schuljahr 20
 
 ## 📞 Kontakt
 
-- **Website**: [textbridge.example](https://textbridge.example)
-- **E-Mail**: contact@textbridge.example
+- **Website**: [textbridge.at](https://textbridge.at)
+- **E-Mail**: team@textbridge.at
 - **Institution**: HTL Ungargasse, Wien, Österreich
 
 ## 🙏 Danksagungen
