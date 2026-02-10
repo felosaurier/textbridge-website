@@ -190,7 +190,10 @@ function sendEmail($name, $email, $subject, $message) {
     // Email headers
     $headers = [];
     // Use the actual domain from RECIPIENT_EMAIL to avoid SPF/DMARC issues
-    $domain = substr(strrchr(RECIPIENT_EMAIL, "@"), 1);
+    $domain = 'textbridge.at'; // Default domain
+    if (strpos(RECIPIENT_EMAIL, '@') !== false) {
+        $domain = substr(strrchr(RECIPIENT_EMAIL, "@"), 1);
+    }
     $headers[] = 'From: TextBridge Website <noreply@' . $domain . '>';
     $headers[] = 'Reply-To: ' . $email;
     $headers[] = 'X-Mailer: PHP/' . phpversion();
@@ -201,9 +204,7 @@ function sendEmail($name, $email, $subject, $message) {
     
     // Log errors and save submission for debugging
     if (!$result) {
-        $errorLog = sys_get_temp_dir() . '/contact_mail_errors.log';
-        $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to $to from $email\n";
-        @file_put_contents($errorLog, $errorMsg, FILE_APPEND);
+        logMailError($to, $email);
         
         // Save failed submission if configured
         if (SAVE_FAILED_SUBMISSIONS) {
@@ -215,21 +216,71 @@ function sendEmail($name, $email, $subject, $message) {
 }
 
 /**
+ * Log mail errors securely
+ */
+function logMailError($to, $from) {
+    $errorLog = getSecureLogPath('contact_mail_errors.log');
+    $sanitizedFrom = filter_var($from, FILTER_SANITIZE_EMAIL);
+    $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to " . $to . " from " . $sanitizedFrom . "\n";
+    @file_put_contents($errorLog, $errorMsg, FILE_APPEND | LOCK_EX);
+    @chmod($errorLog, 0600); // Restrict to owner only
+}
+
+/**
  * Save submission to file when email fails
  */
 function saveSubmission($name, $email, $subject, $message) {
-    $submissionFile = sys_get_temp_dir() . '/contact_failed_submissions.txt';
+    $submissionFile = getSecureLogPath('contact_failed_submissions.txt');
+    
+    // Sanitize data to prevent log injection
+    $sanitizedName = sanitizeForLog($name);
+    $sanitizedEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $sanitizedSubject = sanitizeForLog($subject);
+    $sanitizedMessage = sanitizeForLog($message);
+    $sanitizedIp = filter_var($_SERVER['REMOTE_ADDR'] ?? 'unknown', FILTER_VALIDATE_IP) ?: 'unknown';
     
     $submissionData = "\n" . str_repeat("=", 80) . "\n";
     $submissionData .= "Timestamp: " . date('Y-m-d H:i:s') . "\n";
-    $submissionData .= "Name: $name\n";
-    $submissionData .= "Email: $email\n";
-    $submissionData .= "Subject: $subject\n";
-    $submissionData .= "Message:\n$message\n";
-    $submissionData .= "IP: " . $_SERVER['REMOTE_ADDR'] . "\n";
+    $submissionData .= "Name: " . $sanitizedName . "\n";
+    $submissionData .= "Email: " . $sanitizedEmail . "\n";
+    $submissionData .= "Subject: " . $sanitizedSubject . "\n";
+    $submissionData .= "Message:\n" . $sanitizedMessage . "\n";
+    $submissionData .= "IP: " . $sanitizedIp . "\n";
     $submissionData .= str_repeat("=", 80) . "\n";
     
-    @file_put_contents($submissionFile, $submissionData, FILE_APPEND);
+    @file_put_contents($submissionFile, $submissionData, FILE_APPEND | LOCK_EX);
+    @chmod($submissionFile, 0600); // Restrict to owner only
+}
+
+/**
+ * Get secure path for log files
+ */
+function getSecureLogPath($filename) {
+    // Try to use a more secure location than system temp
+    $logDir = dirname(__FILE__) . '/logs';
+    
+    // Create logs directory if it doesn't exist
+    if (!is_dir($logDir)) {
+        @mkdir($logDir, 0700, true);
+    }
+    
+    // Use logs directory if writable, otherwise fall back to system temp
+    if (is_writable($logDir)) {
+        return $logDir . '/' . $filename;
+    }
+    
+    return sys_get_temp_dir() . '/' . $filename;
+}
+
+/**
+ * Sanitize data for log files to prevent injection
+ */
+function sanitizeForLog($data) {
+    // Remove control characters and newlines that could corrupt logs
+    $data = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $data);
+    // Replace multiple spaces with single space
+    $data = preg_replace('/\s+/', ' ', $data);
+    return trim($data);
 }
 
 /**

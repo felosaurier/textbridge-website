@@ -33,6 +33,7 @@ contact_rate_limit.json
 contact_submissions.log
 contact_mail_errors.log
 contact_failed_submissions.txt
+logs/
 
 # Environment files
 .env
