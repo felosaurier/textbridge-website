@@ -1,201 +1,223 @@
-# TextBridge Website
+# 🌉 TextBridge Website
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)
+<div align="center">
 
-**TextBridge** is a professional, multi-page website for an innovative diploma project at HTL Ungargasse (2026/27). The project aims to eliminate language barriers for deaf individuals through smart glasses that provide speech-to-text, sign-to-text, and real-time translation capabilities.
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
 
-## 🎯 Project Overview
+</div>
 
-TextBridge glasses project text directly onto the user's field of vision, enabling:
-- **Speech-to-Text**: Real-time voice recognition using the Vosk model
-- **Sign-to-Text**: Computer vision-based sign language recognition
-- **Language Translation**: Multi-language translation for international communication
+---
+
+**TextBridge** ist die offizielle Website für ein innovatives Diplomarbeitsprojekt an der HTL Ungargasse (2026/27). Das Projekt zielt darauf ab, Sprachbarrieren für gehörlose Menschen durch intelligente Brillentechnologie zu überwinden, die Sprache-zu-Text, Gebärdensprache-zu-Text und Echtzeit-Übersetzungsfunktionen bietet.
+
+## 🎯 Projektübersicht
+
+Die TextBridge-Brille projiziert Text direkt in das Sichtfeld der Nutzer und ermöglicht:
+- **Sprache-zu-Text**: Echtzeit-Spracherkennung mit dem Vosk-Modell
+- **Gebärdensprache-zu-Text**: Computer-Vision-basierte Gebärdensprachenerkennung
+- **Sprachübersetzung**: Mehrsprachige Übersetzung für internationale Kommunikation
 
 ## 👥 Team
 
-- **Felix Horngacher** - Lead Developer & AI Specialist
-- **Oliver Kellner** - Software Engineer & UX Designer
-- **Raphael Klein** - Hardware Engineer & Design Lead  
-**Project Mentor**: Dipl.-Ing. Mag. Dr. Martin Hasitschka
+<table>
+<tr>
+<td align="center"><b>Felix Horngacher</b><br>Lead Developer & KI-Spezialist</td>
+<td align="center"><b>Oliver Kellner</b><br>Software Engineer & UX Designer</td>
+<td align="center"><b>Raphael Klein</b><br>Hardware Engineer & Design Lead</td>
+</tr>
+</table>
 
-## 🌐 Website Structure
+**Projektbetreuer**: Dipl.-Ing. Mag. Dr. Martin Hasitschka
 
-### Main Pages
-- **Home** (`index.html`) - Introduction and mission
-- **Products** (`products.html`) - Detailed features and specifications
-- **Team** (`team.html`) - Team member profiles with LinkedIn links
-- **History** (`history.html`) - Project timeline and development story
-- **Contact** (`contact.html`) - Secure contact form
+## 🌐 Website-Struktur
 
-### Supporting Pages
-- **Accessibility Statement** (`accessibility.html`) - WCAG 2.1 AA compliance
-- **Privacy Policy** (`privacy.html`) - GDPR-compliant privacy information
+### Hauptseiten
+- **Home** (`index.html`) - Einführung und Mission
+- **Produkte** (`products.html`) - Detaillierte Features und Spezifikationen
+- **Team** (`team.html`) - Teammitglieder-Profile mit LinkedIn-Links
+- **Geschichte** (`history.html`) - Projekt-Timeline und Entwicklungsgeschichte
+- **Kontakt** (`contact.html`) - Sicheres Kontaktformular
+
+### Unterstützende Seiten
+- **Barrierefreiheitserklärung** (`accessibility.html`) - WCAG 2.1 AA-konform
+- **Datenschutzerklärung** (`privacy.html`) - DSGVO-konforme Datenschutzinformationen
 
 ## ✨ Features
 
-### Design & User Experience
-- ✅ Modern, professional design with consistent branding
-- ✅ Fully responsive (mobile, tablet, desktop)
-- ✅ Smooth animations and transitions
-- ✅ Intuitive navigation with active page highlighting
+### Design & Benutzererfahrung
+- ✅ Modernes, professionelles Design mit konsistentem Branding
+- ✅ Vollständig responsiv (Mobile, Tablet, Desktop)
+- ✅ Flüssige Animationen und Übergänge
+- ✅ Intuitive Navigation mit aktiver Seitenhervorhebung
 
-### Accessibility
-- ✅ WCAG 2.1 AA compliant
-- ✅ Semantic HTML structure
-- ✅ ARIA labels and roles
-- ✅ Keyboard navigation support
-- ✅ Skip to main content link
-- ✅ Sufficient color contrast
-- ✅ Reduced motion support
+### Barrierefreiheit
+- ✅ WCAG 2.1 AA-konform
+- ✅ Semantische HTML-Struktur
+- ✅ ARIA-Labels und -Rollen
+- ✅ Tastaturnavigation
+- ✅ "Zum Hauptinhalt springen"-Link
+- ✅ Ausreichender Farbkontrast
+- ✅ Unterstützung für reduzierte Bewegung
 
-### Security
-- ✅ Secure PHP contact form handler
-- ✅ Input validation and sanitization
-- ✅ CSRF protection
-- ✅ Rate limiting (5 attempts per hour)
-- ✅ Honeypot spam protection
-- ✅ XSS prevention
-- ✅ Security headers
+### Sicherheit
+- ✅ Sicherer PHP-Kontaktformular-Handler
+- ✅ Eingabevalidierung und -bereinigung
+- ✅ CSRF-Schutz
+- ✅ Rate Limiting (5 Versuche pro Stunde)
+- ✅ Honeypot-Spam-Schutz
+- ✅ XSS-Prävention
+- ✅ Sicherheits-Header
 
-## 🚀 Getting Started
+## 🚀 Erste Schritte
 
-### Prerequisites
-- Web server with PHP 7.4+ (Apache, Nginx, etc.)
-- Modern web browser
+### Voraussetzungen
+- Webserver mit PHP 7.4+ (Apache, Nginx, etc.)
+- Moderner Webbrowser
 
 ### Installation
 
-1. **Clone the repository**
+1. **Repository klonen**
    ```bash
    git clone https://github.com/felosaurier/textbridge-website.git
    cd textbridge-website
    ```
 
-2. **Configure the contact form**
+2. **Kontaktformular konfigurieren**
    
-   Edit `contact-handler.php` and update:
+   Bearbeiten Sie `contact-handler.php` und aktualisieren Sie:
    ```php
-   define('RECIPIENT_EMAIL', 'your-email@example.com');
+   define('RECIPIENT_EMAIL', 'ihre-email@beispiel.com');
    ```
 
-3. **Deploy to web server**
+3. **Auf Webserver deployen**
    
-   Upload all files to your web server's public directory (e.g., `/var/www/html` or `public_html`).
+   Laden Sie alle Dateien in das öffentliche Verzeichnis Ihres Webservers hoch (z.B. `/var/www/html` oder `public_html`).
 
-4. **Set permissions** (if needed)
+4. **Berechtigungen setzen** (falls erforderlich)
    ```bash
    chmod 755 contact-handler.php
    ```
 
-5. **Test the website**
+5. **Website testen**
    
-   Navigate to your domain in a web browser.
+   Navigieren Sie in Ihrem Webbrowser zu Ihrer Domain.
 
-### Local Development
+### Lokale Entwicklung
 
-For local testing with PHP:
+Für lokales Testen mit PHP:
 
 ```bash
 php -S localhost:8000
 ```
 
-Then visit `http://localhost:8000` in your browser.
+Besuchen Sie dann `http://localhost:8000` in Ihrem Browser.
 
-## 📁 Project Structure
+## 📁 Projektstruktur
 
 ```
 textbridge-website/
-├── index.html              # Home page
-├── products.html           # Products & features
-├── team.html              # Team profiles
-├── history.html           # Project timeline
-├── contact.html           # Contact form
-├── accessibility.html     # Accessibility statement
-├── privacy.html           # Privacy policy
-├── contact-handler.php    # Secure form handler
+├── index.html              # Startseite
+├── products.html           # Produkte & Features
+├── team.html              # Team-Profile
+├── history.html           # Projekt-Timeline
+├── contact.html           # Kontaktformular
+├── accessibility.html     # Barrierefreiheitserklärung
+├── privacy.html           # Datenschutzerklärung
+├── contact-handler.php    # Sicherer Formular-Handler
+├── csrf.php               # CSRF-Token-Verwaltung
 ├── css/
-│   └── style.css         # Main stylesheet
+│   └── style.css         # Haupt-Stylesheet
 ├── js/
-│   └── main.js           # JavaScript functionality
+│   └── main.js           # JavaScript-Funktionalität
 ├── images/
-│   └── logo.svg          # TextBridge logo
-└── README.md             # This file
+│   ├── logo.svg          # TextBridge-Logo
+│   └── ...               # Weitere Bilder
+├── vendor/
+│   └── PHPMailer/        # E-Mail-Bibliothek
+└── README.md             # Diese Datei
 ```
 
-## 🛠️ Technologies
+## 🛠️ Technologien
 
 ### Frontend
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with CSS variables
-- **JavaScript (ES6+)** - Interactive functionality
+- **HTML5** - Semantisches Markup
+- **CSS3** - Modernes Styling mit CSS-Variablen
+- **JavaScript (ES6+)** - Interaktive Funktionalität
 
 ### Backend
-- **PHP** - Contact form processing
+- **PHP** - Kontaktformular-Verarbeitung
+- **PHPMailer** - E-Mail-Versand
 
-### Design Principles
-- Mobile-first responsive design
-- Progressive enhancement
-- Graceful degradation
-- Performance optimization
+### Design-Prinzipien
+- Mobile-First Responsive Design
+- Progressive Enhancement
+- Graceful Degradation
+- Performance-Optimierung
 
-## 🔒 Security Features
+## 🔒 Sicherheitsfeatures
 
-The contact form includes multiple security layers:
+Das Kontaktformular umfasst mehrere Sicherheitsebenen:
 
-1. **Input Validation** - Client and server-side validation
-2. **Sanitization** - XSS prevention through input sanitization
-3. **CSRF Protection** - Token-based request verification
-4. **Rate Limiting** - Prevents spam (5 submissions/hour per IP)
-5. **Honeypot** - Bot detection field
-6. **Security Headers** - X-Frame-Options, X-XSS-Protection, etc.
+1. **Eingabevalidierung** - Client- und serverseitige Validierung
+2. **Bereinigung** - XSS-Prävention durch Eingabebereinigung
+3. **CSRF-Schutz** - Token-basierte Anforderungsverifizierung
+4. **Rate Limiting** - Verhindert Spam (5 Übermittlungen/Stunde pro IP)
+5. **Honeypot** - Bot-Erkennungsfeld
+6. **Sicherheits-Header** - X-Frame-Options, X-XSS-Protection, etc.
 
-## ♿ Accessibility
+## ♿ Barrierefreiheit
 
-TextBridge website is designed with accessibility as a priority:
+Die TextBridge-Website wurde mit Fokus auf Barrierefreiheit entwickelt:
 
-- Semantic HTML for screen readers
-- Proper heading hierarchy
-- Alternative text for images
-- Keyboard navigation support
-- Focus indicators
-- ARIA labels and landmarks
-- Color contrast compliance
-- Reduced motion support
+- Semantisches HTML für Screenreader
+- Korrekte Überschriftenhierarchie
+- Alternativtexte für Bilder
+- Tastaturnavigation
+- Focus-Indikatoren
+- ARIA-Labels und Landmarks
+- Farbkontrast-Konformität
+- Unterstützung für reduzierte Bewegung
 
-## 📱 Browser Support
+## 📱 Browser-Unterstützung
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- Chrome (neueste Version)
+- Firefox (neueste Version)
+- Safari (neueste Version)
+- Edge (neueste Version)
+- Mobile Browser (iOS Safari, Chrome Mobile)
 
-## 🤝 Contributing
+## 🤝 Mitwirken
 
-This is a diploma project for HTL Ungargasse. For inquiries or collaboration opportunities, please use the contact form on the website.
+Dies ist ein Diplomarbeitsprojekt für die HTL Ungargasse. Für Anfragen oder Kooperationsmöglichkeiten verwenden Sie bitte das Kontaktformular auf der Website.
 
-## 📄 License
+## 📄 Lizenz
 
-Copyright © 2026 TextBridge Team. All rights reserved.
+Copyright © 2026 TextBridge Team. Alle Rechte vorbehalten.
 
-This project is a diploma project at HTL Ungargasse for the academic year 2026/27.
+Dieses Projekt ist eine Diplomarbeit an der HTL Ungargasse für das Schuljahr 2026/27.
 
-## 📞 Contact
+## 📞 Kontakt
 
 - **Website**: [textbridge.example](https://textbridge.example)
-- **Email**: contact@textbridge.example
-- **Institution**: HTL Ungargasse, Vienna, Austria
+- **E-Mail**: contact@textbridge.example
+- **Institution**: HTL Ungargasse, Wien, Österreich
 
-## 🙏 Acknowledgments
+## 🙏 Danksagungen
 
-- **Mentor**: Dipl.-Ing. Mag. Dr. Martin Hasitschka
+- **Betreuer**: Dipl.-Ing. Mag. Dr. Martin Hasitschka
 - **Institution**: HTL Ungargasse
-- **Vosk Team**: For the speech recognition model
-- **Deaf Community**: For valuable feedback and insights
+- **Vosk-Team**: Für das Spracherkennungsmodell
+- **Gehörlosen-Community**: Für wertvolles Feedback und Einblicke
 
 ---
 
+<div align="center">
+
+**Brücken bauen durch Technologie - ein Gespräch nach dem anderen.**
+
 *Building bridges through technology - one conversation at a time.*
+
+</div>
