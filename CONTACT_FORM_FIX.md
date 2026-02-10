@@ -32,8 +32,9 @@ Implemented secure error logging with proper sanitization:
 ```php
 function logMailError($to, $from) {
     $errorLog = getSecureLogPath('contact_mail_errors.log');
+    $sanitizedTo = filter_var($to, FILTER_SANITIZE_EMAIL);
     $sanitizedFrom = filter_var($from, FILTER_SANITIZE_EMAIL);
-    $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to " . $to . " from " . $sanitizedFrom . "\n";
+    $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to " . $sanitizedTo . " from " . $sanitizedFrom . "\n";
     @file_put_contents($errorLog, $errorMsg, FILE_APPEND | LOCK_EX);
     @chmod($errorLog, 0600); // Restrict to owner only
 }
@@ -64,16 +65,24 @@ Logs are now stored in a secure location with restricted permissions:
 - **Log injection prevention**: All user input is sanitized to remove control characters and newlines
 
 ### 5. Log Injection Prevention
-Implemented comprehensive sanitization to prevent log injection attacks:
+Implemented comprehensive sanitization to prevent log injection attacks while preserving message readability:
 ```php
 function sanitizeForLog($data) {
-    // Remove control characters and newlines that could corrupt logs
+    // Remove control characters but preserve newlines for message readability
     $data = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $data);
-    // Replace multiple spaces with single space
-    $data = preg_replace('/\s+/', ' ', $data);
+    // Remove carriage returns but keep newlines
+    $data = str_replace("\r", '', $data);
+    // Limit consecutive newlines to prevent log bloat
+    $data = preg_replace('/\n{3,}/', "\n\n", $data);
     return trim($data);
 }
 ```
+
+This approach:
+- Removes dangerous control characters that could corrupt logs
+- Preserves newlines (\n) to maintain message formatting
+- Removes carriage returns (\r) to normalize line endings
+- Limits excessive newlines to prevent log bloat
 
 ### 6. Configuration Option
 Added a new configuration constant to control the backup feature:
