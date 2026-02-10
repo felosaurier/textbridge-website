@@ -18,6 +18,7 @@ header('Content-Type: application/json');
 define('RECIPIENT_EMAIL', 'team@textbridge.at');
 define('MAX_ATTEMPTS', 5); // Maximum submissions per hour
 define('RATE_LIMIT_PERIOD', 3600); // 1 hour in seconds
+define('SAVE_FAILED_SUBMISSIONS', true); // Save submissions when email fails
 
 /**
  * Main function to process form submission
@@ -188,13 +189,47 @@ function sendEmail($name, $email, $subject, $message) {
     
     // Email headers
     $headers = [];
-    $headers[] = 'From: TextBridge Website <noreply@textbridge.example>';
+    // Use the actual domain from RECIPIENT_EMAIL to avoid SPF/DMARC issues
+    $domain = substr(strrchr(RECIPIENT_EMAIL, "@"), 1);
+    $headers[] = 'From: TextBridge Website <noreply@' . $domain . '>';
     $headers[] = 'Reply-To: ' . $email;
     $headers[] = 'X-Mailer: PHP/' . phpversion();
     $headers[] = 'Content-Type: text/plain; charset=UTF-8';
     
     // Send email
-    return mail($to, $emailSubject, $emailBody, implode("\r\n", $headers));
+    $result = @mail($to, $emailSubject, $emailBody, implode("\r\n", $headers));
+    
+    // Log errors and save submission for debugging
+    if (!$result) {
+        $errorLog = sys_get_temp_dir() . '/contact_mail_errors.log';
+        $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to $to from $email\n";
+        @file_put_contents($errorLog, $errorMsg, FILE_APPEND);
+        
+        // Save failed submission if configured
+        if (SAVE_FAILED_SUBMISSIONS) {
+            saveSubmission($name, $email, $subject, $message);
+        }
+    }
+    
+    return $result;
+}
+
+/**
+ * Save submission to file when email fails
+ */
+function saveSubmission($name, $email, $subject, $message) {
+    $submissionFile = sys_get_temp_dir() . '/contact_failed_submissions.txt';
+    
+    $submissionData = "\n" . str_repeat("=", 80) . "\n";
+    $submissionData .= "Timestamp: " . date('Y-m-d H:i:s') . "\n";
+    $submissionData .= "Name: $name\n";
+    $submissionData .= "Email: $email\n";
+    $submissionData .= "Subject: $subject\n";
+    $submissionData .= "Message:\n$message\n";
+    $submissionData .= "IP: " . $_SERVER['REMOTE_ADDR'] . "\n";
+    $submissionData .= str_repeat("=", 80) . "\n";
+    
+    @file_put_contents($submissionFile, $submissionData, FILE_APPEND);
 }
 
 /**
