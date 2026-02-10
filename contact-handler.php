@@ -220,8 +220,9 @@ function sendEmail($name, $email, $subject, $message) {
  */
 function logMailError($to, $from) {
     $errorLog = getSecureLogPath('contact_mail_errors.log');
+    $sanitizedTo = filter_var($to, FILTER_SANITIZE_EMAIL);
     $sanitizedFrom = filter_var($from, FILTER_SANITIZE_EMAIL);
-    $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to " . $to . " from " . $sanitizedFrom . "\n";
+    $errorMsg = "[" . date('Y-m-d H:i:s') . "] Failed to send email to " . $sanitizedTo . " from " . $sanitizedFrom . "\n";
     @file_put_contents($errorLog, $errorMsg, FILE_APPEND | LOCK_EX);
     @chmod($errorLog, 0600); // Restrict to owner only
 }
@@ -261,14 +262,20 @@ function getSecureLogPath($filename) {
     
     // Create logs directory if it doesn't exist
     if (!is_dir($logDir)) {
-        @mkdir($logDir, 0700, true);
+        $created = @mkdir($logDir, 0700, true);
+        if (!$created && !is_dir($logDir)) {
+            // Failed to create directory, log this issue to system error log
+            error_log("TextBridge Contact Form: Failed to create logs directory at " . $logDir);
+        }
     }
     
     // Use logs directory if writable, otherwise fall back to system temp
-    if (is_writable($logDir)) {
+    if (is_dir($logDir) && is_writable($logDir)) {
         return $logDir . '/' . $filename;
     }
     
+    // Fall back to system temp directory
+    error_log("TextBridge Contact Form: Using system temp directory for logs");
     return sys_get_temp_dir() . '/' . $filename;
 }
 
@@ -276,10 +283,12 @@ function getSecureLogPath($filename) {
  * Sanitize data for log files to prevent injection
  */
 function sanitizeForLog($data) {
-    // Remove control characters and newlines that could corrupt logs
+    // Remove control characters but preserve newlines for message readability
     $data = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $data);
-    // Replace multiple spaces with single space
-    $data = preg_replace('/\s+/', ' ', $data);
+    // Remove carriage returns but keep newlines
+    $data = str_replace("\r", '', $data);
+    // Limit consecutive newlines to prevent log bloat
+    $data = preg_replace('/\n{3,}/', "\n\n", $data);
     return trim($data);
 }
 
